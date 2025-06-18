@@ -1,29 +1,14 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>NDC | Home</title>
+<title>{{ _(access ~ '_window_title') }}</title>
 {% endblock %}
 
 {% block body %}
 <main class="container mx-auto">
     <section class="mx-auto" style="width:512px;">
-        <h1 class="text-center">Registration Form</h1>
-        <form>
-            <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-key"></i></span>
-                <div class="form-floating">
-                    <input type="text" class="form-control" id="registration-token" placeholder="Registration token">
-                    <label for="registration-token" class="form-label">Registration token</label>
-                </div>
-            </div>
-            <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                <div class="form-floating">
-                    <input type="text" class="form-control" id="user-email" placeholder="Email">
-                    <label for="user-email" class="form-label">Email</label>
-                </div>
-            </div>
-        </form>
+        <h1 class="text-center">{{ _(access ~ '_page_title') }}</h1>
+        {% include 'user_access_form.html' with context %}
     </section>
 </main>
 {% endblock %}

@@ -1,9 +1,15 @@
+from dotenv import load_dotenv
 from flask import Flask, request
 from flask_babel import Babel
 from model import init_db
-from router import index_bp, user_access_bp
+from router import home_bp, user_access_bp
+#import os
+
+load_dotenv()
 
 app = Flask(__name__)
+#app.secret_key = os.urandom(32)
+app.secret_key = 'very_secret'
 
 def get_locale():
     return request.accept_languages.best_match(['en'])
@@ -16,7 +22,7 @@ app.config['SQLALCHEMY_BINDS'] = {
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
 
-app.register_blueprint(index_bp)
+app.register_blueprint(home_bp)
 app.register_blueprint(user_access_bp)
 
 babel = Babel()

@@ -1,0 +1,29 @@
+<form action="/{{ access }}" method="POST">
+    <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="email" name="email"
+                {{ 'value="' ~ email ~ '"' if email else 'placeholder="' ~ _('email') ~ '"' }}>
+            <label for="email" class="form-label">{{ _('email') }}</label>
+        </div>
+    </div>
+    <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="password" name="password"
+                {{ 'value="' ~ password ~ '"' if password else 'placeholder="' ~ _('password') ~ '"' }}>
+            <label for="password" class="form-label">{{ _('password') }}</label>
+        </div>
+    </div>
+    {% if access == 'registration' -%}
+    <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="confirm-password" name="confirm-password"
+                {{ 'value="' ~ password ~ '"' if password else 'placeholder="' ~ _('confirm-password') ~ '"' }}>
+            <label for="confirm-password" class="form-label">{{ _('confirm_password') }}</label>
+        </div>
+    </div>
+    {%- endif %}
+    <input type="submit" value="{{ _(access) }}">
+</form>

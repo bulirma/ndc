@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>{{ _('home_page_title') }}</title>
+<title>{{ _('home_window_title') }}</title>
 {% endblock %}
 
 {% block body %}
-<h1>{{ _('home_page_title') }}</h1>
+<h1>{{ _('index_page_title') }}</h1>
+<p><a href="/login">{{ _('login') }}</a></p>
+<p><a href="/registration">{{ _('registration') }}</a></p>
 {% endblock %}
