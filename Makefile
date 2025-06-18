@@ -1,0 +1,25 @@
+.PHONY: localize localization-update run count-python-sloc
+
+messages.pot: babel.cfg
+	pybabel extract -F babel.cfg -o messages.pot .
+
+translations/en: messages.pot
+	pybabel init -i messages.pot -d translations -l en
+	
+translations/cs: messages.pot
+	pybabel init -i messages.pot -d translations -l cs
+
+translations/el: messages.pot
+	pybabel init -i messages.pot -d translations -l el
+
+localization-update: messages.pot translations/en translations/cs translations/el
+	pybabel update -i messages.pot -d translations
+
+localize: translations/en translations/cs translations/el
+	pybabel compile -d translations
+
+run:
+	flask --app ndc run --debug
+
+count-python-sloc:
+	@sh scripts/count-python-sloc.sh

@@ -1,1 +1,4 @@
 .env
+messages.mo
+__pycache__/
+instance/
