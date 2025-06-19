@@ -1,4 +1,5 @@
 .env
 messages.mo
+.pytest_cache/
 __pycache__/
 instance/

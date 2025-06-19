@@ -35,15 +35,12 @@ def registration():
     result = userval.validate_registration_data(request.form)
     if not result.is_valid():
         email = None
-        password = None
         if result.email_valid:
             email = request.form['email']
         else:
             flash('invalid_email_msg', 'danger')
-        if result.is_password_valid():
-            password = request.form['password']
-        else:
-            if not result.password_valid:
+        if not result.is_password_valid():
+            if not result.password_valid_chars:
                 flash('invalid_pw_chars_msg', 'danger')
             if not result.password_long_enough:
                 flash('pw_too_short_msg', 'danger')
@@ -51,7 +48,7 @@ def registration():
                 flash('pw_too_short_msg', 'danger')
             if not result.password_confirmed:
                 flash('pw_not_the_same_msg', 'danger')
-        return render_template('user_access.html', access='registration', email=email, password=password)
+        return render_template('user_access.html', access='registration', email=email)
     email = request.form['email']
     password = request.form['password']
     if userdbq.exists_user(email):

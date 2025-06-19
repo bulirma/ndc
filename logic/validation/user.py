@@ -2,13 +2,13 @@ import re
 
 class UserRegistrationValidationResult:
     email_valid = False
-    password_valid = False
+    password_valid_chars = False
     password_long_enough = False
     password_short_enough = False
     password_confirmed = False
 
     def is_password_valid(self):
-        return (self.password_valid and
+        return (self.password_valid_chars and
                 self.password_long_enough and
                 self.password_short_enough and
                 self.password_confirmed)
@@ -36,7 +36,7 @@ def validate_registration_data(form_data: dict) -> UserRegistrationValidationRes
         result.email_valid = True
 
     if is_password_valid(password):
-        result.password_valid = True
+        result.password_valid_chars = True
     if len(password) > 7:
         result.password_long_enough = True
     if len(password) < 65:
