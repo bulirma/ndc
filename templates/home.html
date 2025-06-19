@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>{{ _('home_window_title') }}</title>
+{% endblock %}
+
+{% block body %}
+<main>
+    <h1>{{ _('home_page_title') }}</h1>
+    <p>user: {{ userid }}</p>
+    <p><a href="/logout">logout</a></p>
+</main>
+{% endblock %}

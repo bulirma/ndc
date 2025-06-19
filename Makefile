@@ -19,7 +19,7 @@ localize: translations/en translations/cs translations/el
 	pybabel compile -d translations
 
 run:
-	flask --app ndc run --debug
+	flask run --debug
 
 count-python-sloc:
 	@sh scripts/count-python-sloc.sh

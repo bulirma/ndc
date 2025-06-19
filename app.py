@@ -16,8 +16,8 @@ def get_locale():
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ndc-default.db'
 app.config['SQLALCHEMY_BINDS'] = {
-    'ndc-users': 'sqlite:///ndc-users.db',
-    'ndc-sheets': 'sqlite:///ndc-sheets.db'
+    'ndc_users': 'sqlite:///ndc-users.db',
+    'ndc_sheets': 'sqlite:///ndc-sheets.db'
 }
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'

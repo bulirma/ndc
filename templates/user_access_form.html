@@ -2,7 +2,7 @@
     <div class="input-group">
         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
         <div class="form-floating">
-            <input type="text" class="form-control" id="email" name="email"
+            <input type="text" class="form-control" id="email" name="email" required
                 {{ 'value="' ~ email ~ '"' if email else 'placeholder="' ~ _('email') ~ '"' }}>
             <label for="email" class="form-label">{{ _('email') }}</label>
         </div>
@@ -10,7 +10,7 @@
     <div class="input-group">
         <span class="input-group-text"><i class="fas fa-lock"></i></span>
         <div class="form-floating">
-            <input type="password" class="form-control" id="password" name="password"
+            <input type="password" class="form-control" id="password" name="password" required
                 {{ 'value="' ~ password ~ '"' if password else 'placeholder="' ~ _('password') ~ '"' }}>
             <label for="password" class="form-label">{{ _('password') }}</label>
         </div>
@@ -19,7 +19,7 @@
     <div class="input-group">
         <span class="input-group-text"><i class="fas fa-lock"></i></span>
         <div class="form-floating">
-            <input type="password" class="form-control" id="confirm-password" name="confirm-password"
+            <input type="password" class="form-control" id="confirm-password" name="confirm-password" required
                 {{ 'value="' ~ password ~ '"' if password else 'placeholder="' ~ _('confirm-password') ~ '"' }}>
             <label for="confirm-password" class="form-label">{{ _('confirm_password') }}</label>
         </div>

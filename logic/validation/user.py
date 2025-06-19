@@ -47,3 +47,10 @@ def validate_registration_data(form_data: dict) -> UserRegistrationValidationRes
     
     return result
 
+def validate_login_data(form_data: dict) -> bool:
+    if len(form_data['email']) == 0:
+        return False
+    if len(form_data['password']) == 0:
+        return False
+    return True
+

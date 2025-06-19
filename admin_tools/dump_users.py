@@ -8,7 +8,7 @@ load_dotenv()
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from ndc import app
+from app import app
 from model import db
 from model.user import User
 

@@ -16,6 +16,16 @@ user_access_bp = Blueprint('user_access', __name__)
 def login():
     if request.method == 'GET':
         return render_template('user_access.html', access='login')
+    if not userval.validate_login_data(request.form):
+        flash('missing_input_msg', 'danger')
+        return render_template('user_access.html', access='login')
+    email = request.form['email']
+    password = request.form['password']
+    user = userdbq.get_user(email)
+    if user is None or not user.check_password(password):
+        flash('incorrect_credentials_msg', 'danger')
+        return render_template('user_access.html', access='login')
+    session['userid'] = user.id
     return redirect(url_for('home.index'))
 
 @user_access_bp.route('/registration', methods=['GET', 'POST'])
@@ -47,7 +57,8 @@ def registration():
     if userdbq.exists_user(email):
         flash('user_already_exists_msg', 'danger')
         return render_template('user_access.html', access='registration', password=password)
-    userdbq.create_user(email, password)
+    user = userdbq.create_user(email, password)
+    session['userid'] = user.id
     return redirect(url_for('home.index'))
 
 @user_access_bp.route('/password-recovery')

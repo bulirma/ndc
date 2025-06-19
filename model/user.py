@@ -1,12 +1,13 @@
-from . import db, cipher
-from logic.helpers import hash_email
+from . import cipher, db
 import bcrypt
+from logic.helpers import hash_email
 import os
 
 EMAIL_SALT_LEN = 16
 
 class User(db.Model):
-    __bind_key__ = 'ndc-users'
+    __bind_key__ = 'ndc_users'
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.LargeBinary, unique=True, nullable=False)
     email_hash = db.Column(db.LargeBinary, unique=True, nullable=False)
