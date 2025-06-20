@@ -70,18 +70,31 @@ def registration():
 @user_access_bp.route('/email-verification', defaults={'token': None}, methods=['GET'])
 @user_access_bp.route('/email-verification/<token>', methods=['GET'])
 def verification(token):
+    print('user_id' in session)
     if 'user_id' not in session:
         flash('login_for_verification_msg', 'warning')
         return redirect(url_for('user_access.login'))
     user = userdbq.get_user_by_id(session['user_id'])
     if user.unverified_status(False):
         return redirect(url_for('home.index'))
-    if token is None:
-        token = helpers.generate_verification_token(128)
-        encoded_token = helpers.encode_base64(token)
-        return render_template('email_verification.html', token=encoded_token)
-    decoded_token = helpers.decode_base64(token)
-    verification_token = vertokdbq.get_verification_token(decoded_token)
+    verification_token = vertokdbq.get_verification_token_by_userid(user.id)
+    if verification_token is None:
+        if token is None:
+            token = helpers.generate_verification_token(128)
+            print('generated token:', token)
+            vertokdbq.create_verification_token(token, user.id)
+            encoded_token = helpers.encode_base64(token)
+            return render_template('email_verification.html', token=encoded_token)
+        else:
+            decoded_token = helpers.decode_base64(token)
+            print('obtained token:', decoded_token)
+            verification_token = vertokdbq.get_verification_token(decoded_token)
+    else:
+        if token is None:
+            print('obtained token:', verification_token.code)
+            encoded_token = helpers.encode_base64(verification_token.code)
+            return render_template('email_verification.html', token=encoded_token)
+        decoded_token = helpers.decode_base64(token)
     if verification_token is None:
         flash('invalid_verification_token_msg', 'danger')
         return redirect(url_for('user_access.registration'))
@@ -90,6 +103,12 @@ def verification(token):
         vertokdbq.delete_verification_token(verification_token)
         userdbq.delete_user(user)
         flash('expired_verification_token_msg', 'danger')
+        return redirect(url_for('home.index'))
+    if decoded_token != verification_token.code:
+        flash('invalid_verification_token_msg', 'danger')
+    else:
+        userdbq.set_user_active(user)
+        vertokdbq.delete_verification_token(verification_token)
     return redirect(url_for('home.index'))
 
 

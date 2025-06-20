@@ -4,12 +4,10 @@ from model.user import User
 
 
 def get_user_by_id(user_id: int) -> User:
-    users = db.session.query(User)
-    return users.filter_by(id=user_id).first()
+    return User.query.filter_by(id=user_id).first()
 
 def get_user_by_email(email: str) -> User:
-    users = db.session.query(User)
-    return users.filter_by(email_hash=hash_email(email)).first()
+    return User.query.filter_by(email_hash=hash_email(email)).first()
 
 def create_user(email: str, password: str) -> User:
     user = User(email, password)
