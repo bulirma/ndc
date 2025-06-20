@@ -4,10 +4,12 @@ from logic.helpers import hash_email
 import os
 
 EMAIL_SALT_LEN = 16
+FLAGS_FULL_MASK = 2**16 - 1
 
 class User(db.Model):
     __bind_key__ = 'ndc_users'
     __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.LargeBinary, unique=True, nullable=False)
     email_hash = db.Column(db.LargeBinary, unique=True, nullable=False)
@@ -15,11 +17,13 @@ class User(db.Model):
     pref_lang = db.Column(db.String(2), nullable=False)
     flags = db.Column(db.SmallInteger, nullable=False)
 
+    verification_token = db.relationship('VerificationToken', back_populates='user', uselist=False)
+
     def __init__(self, email: str, password: str):
         self.set_email(email)
         self.set_password(password)
         self.pref_lang = 'en'
-        self.flags = 1
+        self.flags = 0
 
     def set_email(self, email: str):
         salt = os.urandom(EMAIL_SALT_LEN)
@@ -44,3 +48,27 @@ class User(db.Model):
 
     def get_pref_lang(self) -> str:
         return self.pref_lang
+
+    def unverified_status(self, value: bool) -> bool:
+        status = self.flags & 3
+        return (status == 0) == value
+
+    def active_status(self, value: bool) -> bool:
+        status = self.flags & 3
+        return (status == 1) == value
+
+    def banned_status(self, value: bool) -> bool:
+        status = self.flags & 3
+        return (status == 3) == value
+
+    def deactivated_status(self, value: bool) -> bool:
+        status = self.flags & 3
+        return (status == 2) == value
+
+    def set_unverified(self):
+        flags = self.flags & (FLAGS_FULL_MASK - 3)
+        self.flags = flags
+
+    def set_active(self):
+        flags = self.flags & (FLAGS_FULL_MASK - 3)
+        self.flags = flags + 1

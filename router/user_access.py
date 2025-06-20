@@ -7,8 +7,10 @@ from flask import (
     session,
     url_for
 )
+from logic import helpers
 from logic.validation import user as userval
 from logic.db_queries import user as userdbq
+from logic.db_queries import verification_token as vertokdbq
 
 user_access_bp = Blueprint('user_access', __name__)
 
@@ -21,11 +23,14 @@ def login():
         return render_template('user_access.html', access='login')
     email = request.form['email']
     password = request.form['password']
-    user = userdbq.get_user(email)
-    if user is None or not user.check_password(password):
+    user = userdbq.get_user_by_email(email)
+    if user is None or not user.check_password(password) or user.deactivated_status(True):
         flash('incorrect_credentials_msg', 'danger')
         return render_template('user_access.html', access='login')
-    session['userid'] = user.id
+    if user.banned_status(True):
+        flash('banned_user_msg', 'info')
+        return render_template('user_access.html', access='login')
+    session['user_id'] = user.id
     return redirect(url_for('home.index'))
 
 @user_access_bp.route('/registration', methods=['GET', 'POST'])
@@ -51,12 +56,42 @@ def registration():
         return render_template('user_access.html', access='registration', email=email)
     email = request.form['email']
     password = request.form['password']
-    if userdbq.exists_user(email):
+    user = userdbq.get_user_by_email(email)
+    if user is not None and user.deactivated_status(False):
         flash('user_already_exists_msg', 'danger')
         return render_template('user_access.html', access='registration', password=password)
-    user = userdbq.create_user(email, password)
-    session['userid'] = user.id
+    if user is None:
+        user = userdbq.create_user(email, password)
+    else:
+        userdbq.set_user_unverified(user)
+    session['user_id'] = user.id
     return redirect(url_for('home.index'))
+
+@user_access_bp.route('/email-verification', defaults={'token': None}, methods=['GET'])
+@user_access_bp.route('/email-verification/<token>', methods=['GET'])
+def verification(token):
+    if 'user_id' not in session:
+        flash('login_for_verification_msg', 'warning')
+        return redirect(url_for('user_access.login'))
+    user = userdbq.get_user_by_id(session['user_id'])
+    if user.unverified_status(False):
+        return redirect(url_for('home.index'))
+    if token is None:
+        token = helpers.generate_verification_token(128)
+        encoded_token = helpers.encode_base64(token)
+        return render_template('email_verification.html', token=encoded_token)
+    decoded_token = helpers.decode_base64(token)
+    verification_token = vertokdbq.get_verification_token(decoded_token)
+    if verification_token is None:
+        flash('invalid_verification_token_msg', 'danger')
+        return redirect(url_for('user_access.registration'))
+    if verification_token.has_expired():
+        session.pop('user_id', None)
+        vertokdbq.delete_verification_token(verification_token)
+        userdbq.delete_user(user)
+        flash('expired_verification_token_msg', 'danger')
+    return redirect(url_for('home.index'))
+
 
 @user_access_bp.route('/password-recovery')
 def password_recovery():

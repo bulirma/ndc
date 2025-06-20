@@ -7,7 +7,11 @@
 {% block body %}
 <main>
     <h1>{{ _('home_page_title') }}</h1>
-    <p>user: {{ userid }}</p>
+    <p>user id: {{ user_id }}</p>
+    <p>user status: {{ 'verified' if is_verified else 'not verified' }}</p>
+    {% if not is_verified %}
+    <p><a href="/email-verification">verify email</a></p>
+    {% endif %}
     <p><a href="/logout">logout</a></p>
 </main>
 {% endblock %}

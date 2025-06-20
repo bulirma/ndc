@@ -53,4 +53,3 @@ def validate_login_data(form_data: dict) -> bool:
     if len(form_data['password']) == 0:
         return False
     return True
-

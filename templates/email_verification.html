@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>{{ _('email_verification_window_title') }}</title>
+{% endblock %}
+
+{% block body %}
+<main class="container mx-auto">
+    <h1>{{ _('email_verification_page_title') }}</h1>
+    <p><a href="/email-verification/{{ token }}">verify email</a></p>
+</main>
+{% endblock %}

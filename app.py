@@ -3,13 +3,12 @@ from flask import Flask, request
 from flask_babel import Babel
 from model import init_db
 from router import home_bp, user_access_bp
-#import os
+import os
 
 load_dotenv()
 
 app = Flask(__name__)
-#app.secret_key = os.urandom(32)
-app.secret_key = 'very_secret'
+app.secret_key = os.urandom(64)
 
 def get_locale():
     return request.accept_languages.best_match(['en'])
