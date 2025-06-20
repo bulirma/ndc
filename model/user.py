@@ -57,13 +57,13 @@ class User(db.Model):
         status = self.flags & 3
         return (status == 1) == value
 
-    def banned_status(self, value: bool) -> bool:
-        status = self.flags & 3
-        return (status == 3) == value
-
     def deactivated_status(self, value: bool) -> bool:
         status = self.flags & 3
         return (status == 2) == value
+
+    def banned_status(self, value: bool) -> bool:
+        status = self.flags & 3
+        return (status == 3) == value
 
     def set_unverified(self):
         flags = self.flags & (FLAGS_FULL_MASK - 3)
