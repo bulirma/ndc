@@ -1,5 +1,6 @@
 import base64
 import hashlib
+from logic.db_queries import verification_token as vertokdbq
 import random
 import string
 import uuid as uuidgen
@@ -33,10 +34,15 @@ def generate_verification_token(length: int = 64) -> str:
 
 def encode_base64(token: str) -> str:
     token_bytes = token.encode('utf-8')
-    encoded_bytes = base64.b64encode(token_bytes)
+    encoded_bytes = base64.urlsafe_b64encode(token_bytes)
     return encoded_bytes.decode('utf-8')
 
 def decode_base64(encoded_token: str) -> str:
     encoded_bytes = encoded_token.encode('utf-8')
-    token_bytes = base64.b64decode(encoded_bytes)
+    token_bytes = base64.urlsafe_b64decode(encoded_bytes)
     return token_bytes.decode('utf-8')
+
+def generate_user_verification_token(user_id: int, length: int = 64) -> str:
+    token = generate_verification_token(128)
+    vertokdbq.create_verification_token(token, user_id)
+    return encode_base64(token)

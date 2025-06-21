@@ -2,6 +2,7 @@
 
 from argparse import ArgumentParser
 from dotenv import load_dotenv
+import math
 import re
 import os
 import sys
@@ -80,6 +81,9 @@ def invalid_print_token_constraints(token: VerificationToken, having_token: str,
         return True
     return False
 
+def get_num_len(num: int):
+    return math.ceil(math.log10(num))
+
 def dump_users(args):
     having_token = args.token
     token_info = args.token_info
@@ -99,6 +103,9 @@ def dump_users(args):
             batch_size = count - offset
         users = get_users(status, reverse_status, offset, batch_size)
         max_email_len = len(max(users, key=lambda u: len(u.get_email())).get_email())
+        max_id_len = get_num_len(users[-1].id)
+        if max_id_len == 0:
+            max_id_len = 1
         for user in users:
             # check email constraints
             if email_pattern is not None:
@@ -108,6 +115,7 @@ def dump_users(args):
             # prepare user data
             text_status = get_user_text_status(user)
             email = user.get_email()
+            padded_id = str(user.id) + (' ' * (max_id_len - get_num_len(user.id)))
             padded_email = email + (' ' * (max_email_len - len(email)))
             padded_status = text_status + (' ' * (12 - len(text_status)))
             with app.app_context():
@@ -124,9 +132,9 @@ def dump_users(args):
 
             # print
             if token_info and token is not None:
-                print(f'{padded_email} \t{padded_status} \t{expiration_date} \t{token_code}')
+                print(f'{padded_id} \t{padded_email} \t{padded_status} \t{expiration_date} \t{token_code}')
             else:
-                print(f'{padded_email} \t{padded_status}')
+                print(f'{padded_id} \t{padded_email} \t{padded_status}')
 
         offset += batch_size
 

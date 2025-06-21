@@ -26,3 +26,7 @@ def set_user_unverified(user: User):
 def set_user_active(user: User):
     user.set_active()
     db.session.commit()
+
+def set_user_password(user: User, password: str):
+    user.set_password(password)
+    db.session.commit()

@@ -1,4 +1,13 @@
+{% if access.startswith('password_recovery') -%}
+{% if user_id -%}
+<form action="/password-recovery/{{ user_id }}/{{ token }}" method="POST">
+{%- else -%}
+<form action="/password-recovery" method="POST">
+{% endif %}
+{%- else -%}
 <form action="/{{ access }}" method="POST">
+{%- endif %}
+    {% if access in ('registration', 'login', 'password_recovery_email') -%}
     <div class="input-group">
         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
         <div class="form-floating">
@@ -7,6 +16,8 @@
             <label for="email" class="form-label">{{ _('email') }}</label>
         </div>
     </div>
+    {%- endif %}
+    {% if access in ('registration', 'login', 'password_recovery_password') -%}
     <div class="input-group">
         <span class="input-group-text"><i class="fas fa-lock"></i></span>
         <div class="form-floating">
@@ -15,7 +26,8 @@
             <label for="password" class="form-label">{{ _('password') }}</label>
         </div>
     </div>
-    {% if access == 'registration' -%}
+    {%- endif %}
+    {% if access in ('registration', 'password_recovery_password') -%}
     <div class="input-group">
         <span class="input-group-text"><i class="fas fa-lock"></i></span>
         <div class="form-floating">
