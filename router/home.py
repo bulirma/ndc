@@ -10,6 +10,13 @@ def index():
     user = userdbq.get_user_by_id(session['user_id'])
     return render_template('home.html', user_id=user.id, is_verified=user.unverified_status(False))
 
+@home_bp.route('/settings')
+def settings():
+    if 'user_id' not in session:
+        return render_template('index.html')
+    #user = userdbq.get_user_by_id(session['user_id'])
+    return render_template('settings.html')
+
 @home_bp.route('/logout')
 def logout():
     session.pop('user_id', None)

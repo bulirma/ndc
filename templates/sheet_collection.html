@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>{{ _('sheet_collection_window_title') }}</title>
+{% endblock %}
+
+{% block body %}
+<main class="container mx-auto">
+    <h1 class="text-center">{{ _('sheet_collection_page_title') }}</h1>
+    <form action="/sheet-collection" method="POST">
+        <div class="form-group">
+            <label for="sheetPhotography">Sheet Photography</label>
+            <input type="file" class="form-control-file" id="sheet-photography" name="sheet"
+                accept=".jpg, .jpeg, .png" required>
+        </div>
+        <div class="form-group">
+            <label>Light Condition</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="light-condition" id="dark" value="dark"
+                    required>
+                <label class="form-check-label" for="dark">Dark</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="light-condition" id="dimmed" value="dimmed"
+                    required>
+                <label class="form-check-label" for="dimmed">Dimmed</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="light-condition" id="light" value="light"
+                    required>
+                <label class="form-check-label" for="light">Light</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="light-condition" id="flashlight"
+                    value="flashlight" required>
+                <label class="form-check-label" for="flashlight">Flashlight</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Quality</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="quality" id="poor" value="poor"
+                    required>
+                <label class="form-check-label" for="poor">Poor</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="quality" id="satisfactory" value="satisfactory"
+                    required>
+                <label class="form-check-label" for="satisfactory">Satisfactory</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="quality" id="good" value="good"
+                    required>
+                <label class="form-check-label" for="good">Good</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</main>
+{% endblock %}

@@ -10,8 +10,10 @@
     <p>user id: {{ user_id }}</p>
     <p>user status: {{ 'verified' if is_verified else 'not verified' }}</p>
     {% if not is_verified %}
-    <p><a href="/email-verification">verify email</a></p>
+    <p><a href="/email-verification">{{ _('email_verification_action') }}</a></p>
     {% endif %}
-    <p><a href="/logout">logout</a></p>
+    <p><a href="/sheet-collection">{{ _('sheet_collection') }}</a></p>
+    <p><a href="/settings">{{ _('settings') }}</a></p>
+    <p><a href="/logout">{{ _('logout') }}</a></p>
 </main>
 {% endblock %}

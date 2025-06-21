@@ -2,7 +2,6 @@ from . import db
 from datetime import datetime
 
 class VerificationToken(db.Model):
-    __bind_key__ = 'ndc_users'
     __tablename__ = 'verification_tokens'
 
     code = db.Column(db.String(128), primary_key=True)

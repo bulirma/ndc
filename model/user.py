@@ -7,7 +7,6 @@ EMAIL_SALT_LEN = 16
 FLAGS_FULL_MASK = 2**16 - 1
 
 class User(db.Model):
-    __bind_key__ = 'ndc_users'
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -18,6 +17,7 @@ class User(db.Model):
     flags = db.Column(db.SmallInteger, nullable=False)
 
     verification_token = db.relationship('VerificationToken', back_populates='user', uselist=False)
+    sheets = db.relationship('Sheet', backref='uploader', lazy=True)
 
     def __init__(self, email: str, password: str):
         self.set_email(email)

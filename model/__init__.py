@@ -3,7 +3,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 import os
 
-__all__ = ['user']
+__all__ = ['user', 'verification_token', 'sheet']
 
 db = SQLAlchemy()
 migrate = Migrate()
