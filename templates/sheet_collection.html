@@ -2,61 +2,56 @@
 
 {% block head %}
 <title>{{ _('sheet_collection_window_title') }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/image_view.css') }}">
+<script src="{{ url_for('static', filename='js/image_view.js') }}"></script>
 {% endblock %}
 
 {% block body %}
 <main class="container mx-auto">
     <h1 class="text-center">{{ _('sheet_collection_page_title') }}</h1>
-    <form action="/sheet-collection" method="POST">
-        <div class="form-group">
-            <label for="sheetPhotography">Sheet Photography</label>
-            <input type="file" class="form-control-file" id="sheet-photography" name="sheet"
-                accept=".jpg, .jpeg, .png" required>
-        </div>
-        <div class="form-group">
-            <label>Light Condition</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="light-condition" id="dark" value="dark"
-                    required>
-                <label class="form-check-label" for="dark">Dark</label>
+    <form action="/sheet-collection" method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="sheet-photography" class="label-form">Sheet Photography</label>
+                <input type="file" class="form-control" id="sheet-photography" name="sheet"
+                    accept=".jpg,.jpeg,.png" required>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="light-condition" id="dimmed" value="dimmed"
+            <div class="form-group col-md-4">
+                <div>
+                    <label>Light Condition</label>
+                </div>
+                <input class="btn-check" type="radio" name="light-condition" id="dark" value="dark"
                     required>
-                <label class="form-check-label" for="dimmed">Dimmed</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="light-condition" id="light" value="light"
+                <label class="btn btn-outline-secondary" for="dark">Dark</label>
+                <input class="btn-check" type="radio" name="light-condition" id="dimmed" value="dimmed"
                     required>
-                <label class="form-check-label" for="light">Light</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="light-condition" id="flashlight"
+                <label class="btn btn-outline-secondary" for="dimmed">Dimmed</label>
+                <input class="btn-check" type="radio" name="light-condition" id="light" value="light"
+                    required>
+                <label class="btn btn-outline-secondary" for="light">Light</label>
+                <input class="btn-check" type="radio" name="light-condition" id="flashlight"
                     value="flashlight" required>
-                <label class="form-check-label" for="flashlight">Flashlight</label>
+                <label class="btn btn-outline-secondary" for="flashlight">Flashlight</label>
+            </div>
+            <div class="form-group col-md-4">
+                <div>
+                    <label>Quality</label>
+                </div>
+                <input class="btn-check" type="radio" name="quality" id="poor" value="poor"
+                    required>
+                <label class="btn btn-outline-secondary" for="poor">Poor</label>
+                <input class="btn-check" type="radio" name="quality" id="satisfactory" value="satisfactory"
+                    required>
+                <label class="btn btn-outline-secondary" for="satisfactory">Satisfactory</label>
+                <input class="btn-check" type="radio" name="quality" id="good" value="good"
+                    required>
+                <label class="btn btn-outline-secondary" for="good">Good</label>
             </div>
         </div>
-
-        <div class="form-group">
-            <label>Quality</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="quality" id="poor" value="poor"
-                    required>
-                <label class="form-check-label" for="poor">Poor</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="quality" id="satisfactory" value="satisfactory"
-                    required>
-                <label class="form-check-label" for="satisfactory">Satisfactory</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="quality" id="good" value="good"
-                    required>
-                <label class="form-check-label" for="good">Good</label>
-            </div>
+        <div id="image-preview" class="image-preview m-3 d-flex justify-content-center"></div>
+        <div class="d-flex justify-content-end mb-3">
+            <input type="submit" value="{{ _('upload') }}" class="btn btn-dark">
         </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </main>
 {% endblock %}

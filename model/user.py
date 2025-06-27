@@ -19,10 +19,10 @@ class User(db.Model):
     verification_token = db.relationship('VerificationToken', back_populates='user', uselist=False)
     sheets = db.relationship('Sheet', backref='uploader', lazy=True)
 
-    def __init__(self, email: str, password: str):
+    def __init__(self, email: str, password: str, pref_lang: str):
         self.set_email(email)
         self.set_password(password)
-        self.pref_lang = 'en'
+        self.pref_lang = pref_lang
         self.flags = 0
 
     def set_email(self, email: str):

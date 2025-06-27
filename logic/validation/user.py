@@ -70,7 +70,7 @@ def validate_login_data(form_data: dict) -> bool:
 
 def is_token_valid(token: str) -> bool:
     try:
-        base64.b64decode(token)
+        base64.urlsafe_b64decode(token.encode('utf-8'))
     except:
         return False
     return True

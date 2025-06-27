@@ -9,8 +9,8 @@ def get_user_by_id(user_id: int) -> User:
 def get_user_by_email(email: str) -> User:
     return User.query.filter_by(email_hash=hash_email(email)).first()
 
-def create_user(email: str, password: str) -> User:
-    user = User(email, password)
+def create_user(email: str, password: str, pref_lang: str) -> User:
+    user = User(email, password, pref_lang)
     db.session.add(user)
     db.session.commit()
     return user

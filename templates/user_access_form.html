@@ -1,41 +1,65 @@
 {% if access.startswith('password_recovery') -%}
 {% if user_id -%}
-<form action="/password-recovery/{{ user_id }}/{{ token }}" method="POST">
+<form action="/password-recovery/{{ user_id }}/{{ token }}" method="POST"
+    class="{{ 'was-validated' if validation_result else 'needs-validation' }}">
 {%- else -%}
-<form action="/password-recovery" method="POST">
+<form action="/password-recovery" method="POST"
+    class="{{ 'was-validated' if validation_result else 'needs-validation' }}">
 {% endif %}
 {%- else -%}
-<form action="/{{ access }}" method="POST">
+<form action="/{{ access }}" method="POST"
+    class="{{ 'was-validated' if validation_result else 'needs-validation' }}">
 {%- endif %}
     {% if access in ('registration', 'login', 'password_recovery_email') -%}
-    <div class="input-group">
+    <div class="input-group mb-3">
         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
         <div class="form-floating">
-            <input type="text" class="form-control" id="email" name="email" required
-                {{ 'value="' ~ email ~ '"' if email else 'placeholder="' ~ _('email') ~ '"' }}>
-            <label for="email" class="form-label">{{ _('email') }}</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="{{ _('email') }}" required>
+            <label for="email" class="form-label">{{ email if email else _('email') }}</label>
+            {% if validation_result and not validation_result.email_valid -%}
+            <div class="invalid-feedback">{{ _('invalid_email_msg') }}</div>
+            {% endif -%}
         </div>
     </div>
     {%- endif %}
     {% if access in ('registration', 'login', 'password_recovery_password') -%}
-    <div class="input-group">
+    <div class="input-group mb-3">
         <span class="input-group-text"><i class="fas fa-lock"></i></span>
         <div class="form-floating">
             <input type="password" class="form-control" id="password" name="password" required
-                placeholder="{{ _('password') }}">
-            <label for="password" class="form-label">{{ _('password') }}</label>
+                placeholder="{{ _('password') }}"
+                {%- if password %}value="{{ password }}"{% endif %}>
+            <label for="password" class="form-label">{{ password if password else _('password') }}</label>
+            {% if validation_result and not validation_result.password_valid_chars -%}
+            <div class="invalid-feedback">{{ _('invalid_pw_chars_msg') }}</div>
+            {% endif -%}
+            {% if validation_result and not validation_result.password_long_enough -%}
+            <div class="invalid-feedback">{{ _('pw_too_short_msg') }}</div>
+            {% endif -%}
+            {% if validation_result and not validation_result.password_short_enough -%}
+            <div class="invalid-feedback">{{ _('pw_too_long_msg') }}</div>
+            {% endif -%}
         </div>
     </div>
     {%- endif %}
     {% if access in ('registration', 'password_recovery_password') -%}
-    <div class="input-group">
+    <div class="input-group mb-3">
         <span class="input-group-text"><i class="fas fa-lock"></i></span>
         <div class="form-floating">
             <input type="password" class="form-control" id="confirm-password" name="confirm-password" required
-                placeholder="{{ _('confirm_password') }}">
-            <label for="confirm-password" class="form-label">{{ _('confirm_password') }}</label>
+                placeholder="{{ _('confirm_password') }}"
+                {%- if password %}value="{{ password }}"{% endif %}>
+            <label for="confirm-password" class="form-label">
+                {{ password if password else _('confirm_password') }}
+            </label>
+            {% if validation_result and not validation_result.password_confirmed -%}
+            <div class="invalid-feedback">{{ _('pw_not_the_same_msg') }}</div>
+            {% endif -%}
         </div>
     </div>
     {%- endif %}
-    <input type="submit" value="{{ _(access) }}">
+    <div class="d-flex justify-content-end mb-3">
+        <input type="submit" value="{{ _(access) }}"
+            class="btn btn-dark">
+    </div>
 </form>

@@ -32,7 +32,7 @@ def test_password_valid_chars():
         '@llThoseToo!#$%^&*()'
     ]
     for password in passwords:
-        assert userval.is_password_valid(password)
+        assert userval.are_password_chars_valid(password)
 
 def test_password_invalid_chars():
     passwords = [
@@ -42,7 +42,7 @@ def test_password_invalid_chars():
         '+:.'
     ]
     for password in passwords:
-        assert not userval.is_password_valid(password)
+        assert not userval.are_password_chars_valid(password)
 
 def test_registration_valid():
     form_data = {
