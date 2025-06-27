@@ -7,7 +7,8 @@ from flask import (
     session,
     url_for
 )
-from logic import helpers
+from logic.helpers.cryptography import decode_base64, encode_base64
+from logic.helpers.db_queries import generate_user_verification_token
 from logic.validation import user as userval
 from logic.db_queries import user as userdbq
 from logic.db_queries import verification_token as vertokdbq
@@ -108,17 +109,17 @@ def verification(token):
     if verification_token is None:
         # handle not-issued token
         if token is None:
-            encoded_token = helpers.generate_user_verification_token(user.id, 128)
+            encoded_token = generate_user_verification_token(user.id, 128)
             return render_template('email_verification.html', token=encoded_token, public=True)
         else:
-            decoded_token = helpers.decode_base64(token)
+            decoded_token = decode_base64(token)
             verification_token = vertokdbq.get_verification_token(decoded_token, public=True)
     else:
         # handle issued token
         if token is None:
-            encoded_token = helpers.encode_base64(verification_token.code)
+            encoded_token = encode_base64(verification_token.code)
             return render_template('email_verification.html', token=encoded_token, public=True)
-        decoded_token = helpers.decode_base64(token)
+        decoded_token = decode_base64(token)
 
     # token verification (correctness and expiration)
     if verification_token is None:
@@ -151,16 +152,23 @@ def password_recovery_verifaction():
     :param token: Verification token encoded in url-safe base64 format.
     """
 
+    # GET
     if request.method == 'GET':
         return render_template('user_access.html', access='password_recovery_email', public=True)
+
+    # email validation
     email = request.form.get('email', type=str)
     if not userval.is_email_valid(email):
         flash('invalid_email_msg', 'danger')
         return render_template('user_access.html', access='password_recovery_email', public=True)
+
+    # email verification
     user = userdbq.get_user_by_email(email)
     if user is None:
         flash('incorrect_email_msg', 'danger')
         return render_template('user_access.html', access='password_recovery_email', public=True)
+
+    # delete unverified user
     verification_token = vertokdbq.get_verification_token_by_userid(user.id)
     if user.unverified_status(True):
         if verification_token is not None:
@@ -168,10 +176,13 @@ def password_recovery_verifaction():
         userdbq.delete_user(user)
         flash('unverified_account_deleted_msg', 'warning')
         return redirect(url_for('user_access.login'))
+
+    # token handling
     if verification_token is None:
-        encoded_token = helpers.generate_user_verification_token(user.id, 128)
+        encoded_token = generate_user_verification_token(user.id, 128)
     else:
-        encoded_token = helpers.encode_base64(verification_token.code)
+        encoded_token = encode_base64(verification_token.code)
+
     return render_template('password_recovery_verification.html', public=True,
                            user_id=user.id, token=encoded_token)
 
@@ -186,34 +197,49 @@ def password_recovery_prompt(user_id, token):
     :param user_id:
     :param token: Verification token encoded in url-safe base64 format.
     """
+
+    # token validation
     if not userval.is_token_valid(token):
         flash('invalid_verification_token_msg', 'danger')
         return redirect(url_for('home.index'))
+
+    # user-token possession verification
     user = userdbq.get_user_by_id(user_id)
     verification_token = vertokdbq.get_verification_token_by_userid(user_id)
     if user is None or verification_token is None:
         # if token is None it is a suspicious, might be good to notify the user
         flash('user_could_not_be_verified_msg', 'danger')
         return redirect(url_for('user_access.login'))
-    decoded_token = helpers.decode_base64(token)
+
+    # token verification
+    decoded_token = decode_base64(token)
     if verification_token.code != decoded_token:
         flash('invalid_verification_token_msg', 'danger')
         return redirect(url_for('user_access.login'))
+
+    # expiration check
     if verification_token.has_expired():
         vertokdbq.delete_verification_token(verification_token)
         flash('expired_verification_token_msg', 'danger')
         return redirect(url_for('user_access.login'))
+
+    # GET
     if request.method == 'GET':
         return render_template('user_access.html', access='password_recovery_password', public=True,
                                user_id=user.id, token=token)
+
+    # new password validation
     result = userval.validate_password(request.form)
     if not result.is_password_valid():
         flash('invalid_form_input_msg', 'danger')
         return render_template('user_access.html', access='password_recovery_password', public=True,
                                user_id=user.id, token=token, validation_result=result)
+
+    # setting new password and logging-in user
     password = request.form.get('password', type=str)
     userdbq.set_user_password(user, password)
     vertokdbq.delete_verification_token(verification_token)
     session['user_id'] = user.id
+
     flash('new_password_set_msg', 'success')
     return redirect(url_for('home.index'))

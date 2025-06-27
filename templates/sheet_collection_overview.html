@@ -7,5 +7,38 @@
 {% block body %}
 <main class="container mx-auto">
     <h1 class="text-center">{{ _('sheet_collection_overview_page_title') }}</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ _('sheet_record_id') }}</th>
+                <th>{{ _('sheet_image_name') }}</th>
+                <th>{{ _('upload_date') }}</th>
+                <th>{{ _('delete') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td>{{ record.id }}</td>
+                <td>{{ record.image_name }}</td>
+                <td>{{ record.upload_date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>
+                    <a class="btn delete-link" href="/sheet-collection/delete/{{ record.id }}">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% for p in pages %}
+            <li class="page-item">
+                <a class="page-link" href="/sheet-collection/overview/{{ p }}">{{ p }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
 </main>
 {% endblock %}

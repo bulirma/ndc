@@ -1,4 +1,4 @@
-from logic.helpers import hash_email
+from logic.helpers.cryptography import hash_email
 from model import db
 from model.user import User
 

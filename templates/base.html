@@ -15,7 +15,9 @@
                     <a class="navbar-brand" href="{{ url_for('home.index') }}">
                         <img src="{{ url_for('static', filename='favicon.ico') }}" alt="logo">
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-nav-dropdown" aria-controls="navbar-nav-dropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#navbar-nav-dropdown"
+                        aria-controls="navbar-nav-dropdown" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbar-nav-dropdown">
@@ -34,6 +36,11 @@
                             {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" href="/sheet-collection">{{ _('sheet_collection') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/sheet-collection/overview">
+                                    {{ _('sheet_collection_overview') }}
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/settings">{{ _('settings') }}</a>

@@ -11,3 +11,16 @@ def create_sheet(image_name: str, light_condition: int, quality: int, upload_dat
     db.session.add(sheet)
     db.session.commit()
     return sheet
+
+def delete_sheet(sheet: Sheet):
+    db.session.delete(sheet)
+    db.session.commit()
+
+def get_sheet_count() -> int:
+    return Sheet.query.count()
+
+def get_uploader_sheet_batch(user_id: int, offset: int, size: int = 0) -> list:
+    if size < 1:
+        size = get_sheet_count() - offset
+    user_sheets = Sheet.query.filter_by(user_id=user_id)
+    return user_sheets.order_by(Sheet.id).offset(offset).limit(size).all()

@@ -1,6 +1,6 @@
 from . import cipher, db
 import bcrypt
-from logic.helpers import hash_email
+from logic.helpers.cryptography import hash_email
 import os
 
 EMAIL_SALT_LEN = 16

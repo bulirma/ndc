@@ -1,12 +1,9 @@
 import base64
-from datetime import datetime
 import hashlib
-from logic.db_queries import verification_token as vertokdbq
-from logic.db_queries import sheet as sheetdbq
-from model.sheet import Sheet
 import random
 import string
 import uuid as uuidgen
+
 
 def hash_email(email: str) -> bytes:
     """
@@ -73,55 +70,3 @@ def decode_base64(encoded_token: str) -> str:
     encoded_bytes = encoded_token.encode('utf-8')
     token_bytes = base64.urlsafe_b64decode(encoded_bytes)
     return token_bytes.decode('utf-8')
-
-def generate_user_verification_token(user_id: int, length: int = 64) -> str:
-    """
-    Helper function to generate verification token for given user.
-
-    :param user_id: User ID.
-    :param length: Token length.
-    :return: Verification token.
-    """
-
-    token = generate_verification_token(128)
-    vertokdbq.create_verification_token(token, user_id)
-    return encode_base64(token)
-
-def create_sheet_record(image_name: str, light_condition: str, quality: str, user_id: int) -> Sheet:
-    """
-    Helper function to create a sheet record with form values.
-
-    :param image_name: Image name.
-    :param light_condition: Textual representation of light condition.
-    :param quality: Textual representation of quality.
-    :param user_id: Uploader user ID.
-    :return: Sheet model object.
-    """
-
-    # TODO: obfuscate the image name
-    imn = image_name
-
-    if light_condition == 'dark':
-        lc = 0
-    elif light_condition == 'dimmed':
-        lc = 1
-    elif light_condition == 'light':
-        lc = 2
-    elif light_condition == 'flashlight':
-        lc = 3
-    else:
-        raise Exception('unknown level of sheet light condition')
-
-    if quality == 'poor':
-        q = 0
-    elif quality == 'satisfactory':
-        q = 1
-    elif quality == 'good':
-        q = 2
-    else:
-        raise Exception('unknown level of sheet quality')
-
-    dt = datetime.utcnow()
-
-    return sheetdbq.create_sheet(imn, lc, q, dt, user_id)
-
