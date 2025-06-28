@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-03 13:29+0200\n"
-"PO-Revision-Date: 2025-06-03 22:20+0200\n"
+"POT-Creation-Date: 2025-06-28 22:40+0200\n"
+"PO-Revision-Date: 2025-06-28 22:57+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: el\n"
 "Language-Team: el <LL@li.org>\n"
@@ -18,7 +18,239 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: templates/index.html:4 templates/index.html:8
+#: templates/base.html:2
+msgid "lang"
+msgstr "el"
+
+#: templates/base.html:30
+msgid "login"
+msgstr ""
+
+#: templates/base.html:36
+msgid "registration"
+msgstr ""
+
+#: templates/base.html:43
+msgid "verify_email"
+msgstr ""
+
+#: templates/base.html:50
+msgid "sheet_collection"
+msgstr ""
+
+#: templates/base.html:56
+msgid "sheet_collection_overview"
+msgstr ""
+
+#: templates/base.html:68
+msgid "language"
+msgstr ""
+
+#: templates/base.html:81
+msgid "settings"
+msgstr ""
+
+#: templates/base.html:87
+msgid "logout_action"
+msgstr ""
+
+#: templates/base.html:104
+msgid "close"
+msgstr ""
+
+#: templates/email_verification.html:4
+msgid "email_verification_window_title"
+msgstr ""
+
+#: templates/email_verification.html:9
+msgid "email_verification_page_title"
+msgstr ""
+
+#: templates/email_verification.html:10
+msgid "send_email_verification_email_action"
+msgstr ""
+
+#: templates/home.html:4 templates/index.html:4
+msgid "home_window_title"
+msgstr ""
+
+#: templates/home.html:9
 msgid "home_page_title"
+msgstr ""
+
+#: templates/home.html:12
+msgid "logout"
+msgstr ""
+
+#: templates/index.html:9
+msgid "index_page_title"
+msgstr ""
+
+#: templates/index.html:10 templates/user_access.html:21
+msgid "login_action"
+msgstr ""
+
+#: templates/index.html:11 templates/user_access.html:16
+msgid "registration_action"
+msgstr ""
+
+#: templates/password_recovery_verification.html:4
+msgid "password_recovery_verification_window_title"
+msgstr ""
+
+#: templates/password_recovery_verification.html:9
+msgid "password_recovery_verification_page_title"
+msgstr ""
+
+#: templates/password_recovery_verification.html:10
+msgid "send_password_recovery_email_action"
+msgstr ""
+
+#: templates/settings.html:4
+msgid "settings_window_title"
+msgstr ""
+
+#: templates/settings.html:9
+msgid "settings_page_title"
+msgstr ""
+
+#: templates/sheet_collection.html:4
+msgid "sheet_collection_window_title"
+msgstr ""
+
+#: templates/sheet_collection.html:11
+msgid "sheet_collection_page_title"
+msgstr ""
+
+#: templates/sheet_collection.html:15
+msgid "sheet_photography"
+msgstr ""
+
+#: templates/sheet_collection.html:21
+msgid "light_condition"
+msgstr ""
+
+#: templates/sheet_collection.html:25
+msgid "dark"
+msgstr ""
+
+#: templates/sheet_collection.html:28
+msgid "dimmed"
+msgstr ""
+
+#: templates/sheet_collection.html:31
+msgid "light"
+msgstr ""
+
+#: templates/sheet_collection.html:34
+msgid "flashlight"
+msgstr ""
+
+#: templates/sheet_collection.html:38
+msgid "quality"
+msgstr ""
+
+#: templates/sheet_collection.html:42
+msgid "quality_poor"
+msgstr ""
+
+#: templates/sheet_collection.html:45
+msgid "quality_satiscactory"
+msgstr ""
+
+#: templates/sheet_collection.html:48
+msgid "quality_good"
+msgstr ""
+
+#: templates/sheet_collection.html:53
+msgid "upload_action"
+msgstr ""
+
+#: templates/sheet_collection_overview.html:4
+msgid "sheet_collection_overview_window_title"
+msgstr ""
+
+#: templates/sheet_collection_overview.html:11
+msgid "sheet_collection_overview_page_title"
+msgstr ""
+
+#: templates/sheet_collection_overview.html:30
+msgid "previous"
+msgstr ""
+
+#: templates/sheet_collection_overview.html:35
+msgid "next"
+msgstr ""
+
+#: templates/sheet_collection_overview.html:43
+msgid "sheet_record_id"
+msgstr ""
+
+#: templates/sheet_collection_overview.html:44
+msgid "sheet_image_name"
+msgstr ""
+
+#: templates/sheet_collection_overview.html:45
+msgid "upload_date"
+msgstr ""
+
+#: templates/sheet_collection_overview.html:46
+msgid "delete"
+msgstr ""
+
+#: templates/user_access.html:13
+msgid "forgot_password_phrase_msg"
+msgstr ""
+
+#: templates/user_access.html:15
+msgid "no_account_question_msg"
+msgstr ""
+
+#: templates/user_access.html:20
+msgid "existing_account_question_msg"
+msgstr ""
+
+#: templates/user_access_form.html:17 templates/user_access_form.html:18
+msgid "email"
+msgstr ""
+
+#: templates/user_access_form.html:20
+msgid "invalid_email_msg"
+msgstr ""
+
+#: templates/user_access_form.html:30 templates/user_access_form.html:32
+msgid "password"
+msgstr ""
+
+#: templates/user_access_form.html:34
+msgid "invalid_pw_chars_msg"
+msgstr ""
+
+#: templates/user_access_form.html:37
+msgid "pw_too_short_msg"
+msgstr ""
+
+#: templates/user_access_form.html:40
+msgid "pw_too_long_msg"
+msgstr ""
+
+#: templates/user_access_form.html:50 templates/user_access_form.html:53
+msgid "confirm_password"
+msgstr ""
+
+#: templates/user_access_form.html:56
+msgid "pw_not_the_same_msg"
+msgstr ""
+
+msgid "login_window_title"
+msgstr ""
+
+msgid "login_page_title"
+msgstr ""
+
+msgid "registration_window_title"
+msgstr ""
+
+msgid "registration_page_title"
 msgstr ""
 

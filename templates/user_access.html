@@ -6,19 +6,19 @@
 
 {% block body %}
 <main class="container mx-auto">
-    <h1 class="text-center">{{ _(access ~ '_page_title') }}</h1>
+    <h1 class="text-center my-3">{{ _(access ~ '_page_title') }}</h1>
     <section class="mx-auto" style="width:512px;">
         {% include 'user_access_form.html' with context %}
         {% if access == 'login' %}
         <p><a href="/password-recovery">{{ _('forgot_password_phrase_msg') }}</a></p>
         <p>
             {{ _('no_account_question_msg') }}
-            <a href="/registration">{{ _('registration') }}</a>
+            <a href="/registration">{{ _('registration_action') }}</a>
         </p>
         {% elif access == 'registration' %}
         <p>
             {{ _('existing_account_question_msg') }}
-            <a href="/login">{{ _('login') }}</a>
+            <a href="/login">{{ _('login_action') }}</a>
         </p>
         {% endif %}
     </section>

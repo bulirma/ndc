@@ -1,4 +1,12 @@
-from flask import Blueprint, redirect, render_template, session, url_for
+from flask import (
+    Blueprint,
+    flash,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for
+)
 from logic.db_queries import user as userdbq
 
 home_bp = Blueprint('home', __name__)
@@ -19,7 +27,10 @@ def settings():
         return redirect(url_for('home.index'))
     return render_template('settings.html')
 
-@home_bp.route('/logout')
-def logout():
-    session.pop('user_id', None)
-    return redirect(url_for('home.index'))
+@home_bp.route('/language/<lang>')
+def language(lang):
+    if lang not in ('cs', 'en', 'el'):
+        lang = 'en'
+        flash('unsupported_language_msg', 'danger')
+    session['lang'] = lang
+    return redirect(request.referrer or url_for('home.index'))

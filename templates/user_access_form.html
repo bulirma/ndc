@@ -58,8 +58,36 @@
         </div>
     </div>
     {%- endif %}
+    {% if access == 'registration' -%}
+    <div class="input-group mb-3">
+        <span class="input-group-text">
+            <i class="fa-solid fa-language"></i>
+        </span>
+        <input class="btn-check" type="radio" name="lang" id="czech" value="cs"
+            required {% if _('lang') == 'cs' %}checked{% endif %}>
+        <label class="btn btn-outline-primary" for="czech">
+            <figure class="flag flag-cr"></figure>
+            <span>čeština</span>
+        </label>
+        <input class="btn-check" type="radio" name="lang" id="english-usa" value="en"
+            required {% if _('lang') == 'en' %}checked{% endif %}>
+        <label class="btn btn-outline-primary" for="english-usa">
+            <figure class="flag flag-usa"></figure>
+            <span>english</span>
+        </label>
+        <input class="btn-check" type="radio" name="lang" id="greek" value="el"
+            required {% if _('lang') == 'el' %}checked{% endif %}>
+        <label class="btn btn-outline-primary" for="greek">
+            <figure class="flag flag-gr"></figure>
+            <span>ελληνικά</span>
+        </label>
+        {% if validation_result and not validation_result.lang_valid -%}
+        <div class="invalid-feedback">{{ _('unsupported_language_msg') }}</div>
+        {% endif -%}
+    </div>
+    {%- endif %}
     <div class="d-flex justify-content-end mb-3">
-        <input type="submit" value="{{ _(access) }}"
+        <input type="submit" value="{{ _(access ~ '_action') }}"
             class="btn btn-dark">
     </div>
 </form>

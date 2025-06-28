@@ -37,6 +37,7 @@ def login():
         flash('banned_user_msg', 'info')
         return render_template('user_access.html', access='login', public=True)
     session['user_id'] = user.id
+    session['lang'] = user.pref_lang
     return redirect(url_for('home.index'))
 
 @user_access_bp.route('/registration', methods=['GET', 'POST'])
@@ -63,17 +64,19 @@ def registration():
     # credentials verification
     email = request.form.get('email', type=str)
     password = request.form.get('password', type=str)
+    lang = request.form.get('lang', type=str)
     user = userdbq.get_user_by_email(email)
     if user is not None and user.deactivated_status(False):
         flash('user_already_exists_msg', 'danger')
         return render_template('user_access.html', access='registration', password=password, public=True)
     if user is None:
-        user = userdbq.create_user(email, password, 'en')
+        user = userdbq.create_user(email, password, lang)
     else:
         userdbq.set_user_unverified(user)
 
     # loging-in
     session['user_id'] = user.id
+    session['lang'] = user.pref_lang
     return redirect(url_for('home.index'))
 
 @user_access_bp.route('/email-verification', defaults={'token': None}, methods=['GET'])
@@ -240,6 +243,13 @@ def password_recovery_prompt(user_id, token):
     userdbq.set_user_password(user, password)
     vertokdbq.delete_verification_token(verification_token)
     session['user_id'] = user.id
+    session['lang'] = user.pref_lang
 
     flash('new_password_set_msg', 'success')
+    return redirect(url_for('home.index'))
+
+@user_access_bp.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    session.pop('lang', None)
     return redirect(url_for('home.index'))

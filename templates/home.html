@@ -6,9 +6,6 @@
 
 {% block body %}
 <main class="container mx-auto">
-    <h1>{{ _('home_page_title') }}</h1>
-    <p>user id: {{ user_id }}</p>
-    <p>user status: {{ 'not verified' if user_unverified else 'verified' }}</p>
-    <p><a href="/logout">{{ _('logout') }}</a></p>
+    <h1 class="text-center my-3">{{ _('home_page_title') }}</h1>
 </main>
 {% endblock %}

@@ -8,49 +8,49 @@
 
 {% block body %}
 <main class="container mx-auto">
-    <h1 class="text-center">{{ _('sheet_collection_page_title') }}</h1>
+    <h1 class="text-center my-3">{{ _('sheet_collection_page_title') }}</h1>
     <form action="/sheet-collection" method="POST" enctype="multipart/form-data">
         <div class="row">
             <div class="form-group col-md-4">
-                <label for="sheet-photography" class="label-form">Sheet Photography</label>
+                <label for="sheet-photography" class="label-form">{{ _('sheet_photography') }}</label>
                 <input type="file" class="form-control" id="sheet-photography" name="sheet"
                     accept=".jpg,.jpeg,.png" required>
             </div>
             <div class="form-group col-md-4">
                 <div>
-                    <label>Light Condition</label>
+                    <label>{{ _('light_condition') }}</label>
                 </div>
                 <input class="btn-check" type="radio" name="light-condition" id="dark" value="dark"
                     required>
-                <label class="btn btn-outline-secondary" for="dark">Dark</label>
+                <label class="btn btn-outline-secondary" for="dark">{{ _('dark') }}</label>
                 <input class="btn-check" type="radio" name="light-condition" id="dimmed" value="dimmed"
                     required>
-                <label class="btn btn-outline-secondary" for="dimmed">Dimmed</label>
+                <label class="btn btn-outline-secondary" for="dimmed">{{ _('dimmed') }}</label>
                 <input class="btn-check" type="radio" name="light-condition" id="light" value="light"
                     required>
-                <label class="btn btn-outline-secondary" for="light">Light</label>
+                <label class="btn btn-outline-secondary" for="light">{{ _('light') }}</label>
                 <input class="btn-check" type="radio" name="light-condition" id="flashlight"
                     value="flashlight" required>
-                <label class="btn btn-outline-secondary" for="flashlight">Flashlight</label>
+                <label class="btn btn-outline-secondary" for="flashlight">{{ _('flashlight') }}</label>
             </div>
             <div class="form-group col-md-4">
                 <div>
-                    <label>Quality</label>
+                    <label>{{ _('quality') }}</label>
                 </div>
                 <input class="btn-check" type="radio" name="quality" id="poor" value="poor"
                     required>
-                <label class="btn btn-outline-secondary" for="poor">Poor</label>
+                <label class="btn btn-outline-secondary" for="poor">{{ _('quality_poor') }}</label>
                 <input class="btn-check" type="radio" name="quality" id="satisfactory" value="satisfactory"
                     required>
-                <label class="btn btn-outline-secondary" for="satisfactory">Satisfactory</label>
+                <label class="btn btn-outline-secondary" for="satisfactory">{{ _('quality_satiscactory') }}</label>
                 <input class="btn-check" type="radio" name="quality" id="good" value="good"
                     required>
-                <label class="btn btn-outline-secondary" for="good">Good</label>
+                <label class="btn btn-outline-secondary" for="good">{{ _('quality_good') }}</label>
             </div>
         </div>
         <div id="image-preview" class="image-preview m-3 d-flex justify-content-center"></div>
         <div class="d-flex justify-content-end mb-3">
-            <input type="submit" value="{{ _('upload') }}" class="btn btn-dark">
+            <input type="submit" value="{{ _('upload_action') }}" class="btn btn-dark">
         </div>
     </form>
 </main>

@@ -12,10 +12,10 @@ translations/cs: messages.pot
 translations/el: messages.pot
 	pybabel init -i messages.pot -d translations -l el
 
-localization-update: messages.pot translations/en translations/cs translations/el
+localization-update: messages.pot
 	pybabel update -i messages.pot -d translations
 
-localize: translations/en translations/cs translations/el
+localize:
 	pybabel compile -d translations
 
 run:

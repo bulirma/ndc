@@ -1,0 +1,46 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+header {
+    height: 5rem;
+}
+
+main {
+    min-height: calc(100vh - 10rem);
+}
+
+footer {
+    height: 5rem;
+}
+
+.message-box {
+    display: block;
+    width: 100%;
+    position: fixed;
+    bottom: 5rem;
+}
+
+.flag {
+    margin: 0;
+    display: inline-block;
+    width: 2em;
+    height: 1.5em;
+    background-size: cover;
+}
+
+.flag-cr {
+    background-image: url('../flags/cr.svg')
+}
+
+.flag-usa {
+    background-image: url('../flags/usa.svg')
+}
+
+.flag-gr {
+    background-image: url('../flags/gr.svg')
+}

@@ -16,9 +16,10 @@ class PasswordValidatoinResult:
 
 class UserRegistrationValidationResult(PasswordValidatoinResult):
     email_valid = False
+    lang_valid = False
 
     def is_valid(self):
-        return self.email_valid and self.is_password_valid()
+        return self.email_valid and self.lang_valid and self.is_password_valid()
 
     def set_password_result(self, password_result: PasswordValidatoinResult):
         self.password_valid_chars = password_result.password_valid_chars
@@ -31,6 +32,9 @@ def is_email_valid(email: str) -> bool:
         return False
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(pattern, email) is not None
+
+def is_lang_valid(lang: str) -> bool:
+    return lang in ('cs', 'en', 'el')
 
 def are_password_chars_valid(password: str) -> bool:
     pattern = r'^[a-zA-Z0-9!@#$%^&*()_-]*$'
@@ -57,6 +61,8 @@ def validate_registration_data(form_data: dict) -> UserRegistrationValidationRes
     result = UserRegistrationValidationResult()
     if is_email_valid(form_data['email']):
         result.email_valid = True
+    if is_lang_valid(form_data['lang']):
+        result.lang_valid = True
     password_result = validate_password(form_data)
     result.set_password_result(password_result)
     return result

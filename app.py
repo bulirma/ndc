@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask, request, session
 from flask_babel import Babel
 import logging
 from model import init_db
@@ -8,8 +8,6 @@ from router import set_sheet_upload_directory
 import os
 
 
-def get_locale():
-    return request.accept_languages.best_match(['en'])
 
 load_dotenv()
 
@@ -23,6 +21,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ndc.db'
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
 app.config['UPLOAD_SHEETS_DIRECTORY'] = './instance/sheets'
+app.config['LANGUAGES'] = ['cs', 'en', 'gr']
+
+def get_locale():
+    if 'lang' in session:
+        return session.get('lang', 'en')
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 if not os.path.exists(app.config['UPLOAD_SHEETS_DIRECTORY']):
     os.mkdir(app.config['UPLOAD_SHEETS_DIRECTORY'])
