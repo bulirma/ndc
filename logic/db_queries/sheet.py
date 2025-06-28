@@ -24,3 +24,6 @@ def get_uploader_sheet_batch(user_id: int, offset: int, size: int = 0) -> list:
         size = get_sheet_count() - offset
     user_sheets = Sheet.query.filter_by(user_id=user_id)
     return user_sheets.order_by(Sheet.id).offset(offset).limit(size).all()
+
+def sheet_with_uploader_by_image_name(user_id: int, image_name: str) -> bool:
+    return Sheet.query.filter_by(user_id=user_id).filter_by(image_name=image_name).first() is not None

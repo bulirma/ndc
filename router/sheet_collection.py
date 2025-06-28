@@ -1,9 +1,11 @@
 from flask import (
+    abort,
     Blueprint,
     flash,
     render_template,
     redirect,
     request,
+    send_file,
     session,
     url_for
 )
@@ -62,9 +64,19 @@ def overview(page):
     records = get_page_records(user.id, page - 1, PAGE_RECORD_COUNT)
     return render_template('sheet_collection_overview.html', page=page, records=records, pages=pages)
 
-#@sheet_collection_bp.route('/sheet-collection/sheet-image/<image_name>', methods=['GET'])
-#def image(image_name):
-#    pass
+@sheet_collection_bp.route('/sheet-collection/sheet-image/<image_name>', methods=['GET'])
+def image(image_name):
+    if 'user_id' not in session:
+        return redirect(url_for('home.index'))
+    user = userdbq.get_user_by_id(session['user_id'])
+    if user.unverified_status(True):
+        return redirect(url_for('home.index'))
+    if not sheetdbq.sheet_with_uploader_by_image_name(user.id, image_name):
+        abort(404)
+    image_path = os.path.join(UPLOAD_DIR, image_name)
+    if not os.path.isfile(image_path):
+        abort(404)
+    return send_file(image_path)
 
 @sheet_collection_bp.route('/sheet-collection/delete/<int:record_id>', methods=['GET'])
 def delete(record_id):

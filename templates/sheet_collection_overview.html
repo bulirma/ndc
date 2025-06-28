@@ -2,35 +2,67 @@
 
 {% block head %}
 <title>{{ _('sheet_collection_overview_window_title') }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/image_overview.css') }}">
+<script src="{{ url_for('static', filename='js/image_overview.js') }}"></script>
 {% endblock %}
 
 {% block body %}
 <main class="container mx-auto">
     <h1 class="text-center">{{ _('sheet_collection_overview_page_title') }}</h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>{{ _('sheet_record_id') }}</th>
-                <th>{{ _('sheet_image_name') }}</th>
-                <th>{{ _('upload_date') }}</th>
-                <th>{{ _('delete') }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for record in records %}
-            <tr>
-                <td>{{ record.id }}</td>
-                <td>{{ record.image_name }}</td>
-                <td>{{ record.upload_date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                <td>
-                    <a class="btn delete-link" href="/sheet-collection/delete/{{ record.id }}">
-                        <i class="fas fa-times"></i>
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col-md-3">
+            <div id="sheet-overview-carousel" class="carousel slide image-overview">
+                <div class="carousel-inner">
+                    {% for record in records %}
+                    <figure class="carousel-item">
+                        <img src="/sheet-collection/sheet-image/{{ record.image_name }}"
+                            alt="{{ record.image_name }}">
+                        <figcaption class="carousel-caption">
+                            <p>{{ record.image_name }}</p>
+                            <p>{{ record.upload_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                        </figcaption>
+                    </figure>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button"
+                    data-bs-target="#sheet-overview-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">{{ _('previous') }}</span>
+                </button>
+                <button class="carousel-control-next" type="button"
+                    data-bs-target="#sheet-overview-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">{{ _('next') }}</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-9 table-responsive">
+            <table id="overview-table" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>{{ _('sheet_record_id') }}</th>
+                        <th>{{ _('sheet_image_name') }}</th>
+                        <th>{{ _('upload_date') }}</th>
+                        <th class="fixed-col text-center">{{ _('delete') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ record.id }}</td>
+                        <td class="image-name">{{ record.image_name }}</td>
+                        <td>{{ record.upload_date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        <td class="fixed-col text-center">
+                            <a class="btn btn-danger" href="/sheet-collection/delete/{{ record.id }}">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             {% for p in pages %}
