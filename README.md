@@ -23,3 +23,32 @@ python -m venv venv
 . ./bin/venv/activate
 pip install -r requirements.txt
 ```
+
+### Localization
+
+Create lozalization binaries
+
+```bash
+make localize
+```
+
+### Create databaze
+
+Apply migrations
+
+```bash
+make db-upgrade
+```
+
+## Run
+
+To run the application you need to provide an encryption key for the database
+by setting the `NDC_DB_SECRET_COL_KEY` variable either by
+
+- `export` in shell
+- setting in the `.env` file
+
+```bash
+export NDC_DB_SECRET_COL_KEY=top_secret
+make run-dev
+```
