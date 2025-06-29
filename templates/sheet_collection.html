@@ -9,7 +9,8 @@
 {% block body %}
 <main class="container mx-auto">
     <h1 class="text-center my-3">{{ _('sheet_collection_page_title') }}</h1>
-    <form action="/sheet-collection" method="POST" enctype="multipart/form-data">
+    <form action="/sheet-collection" method="POST" enctype="multipart/form-data"
+        class="{{ 'was-validated' if validation_result else 'needs-validation' }}">
         <div class="row">
             <div class="form-group col-md-4">
                 <label for="sheet-photography" class="label-form">{{ _('sheet_photography') }}</label>
@@ -32,6 +33,9 @@
                 <input class="btn-check" type="radio" name="light-condition" id="flashlight"
                     value="flashlight" required>
                 <label class="btn btn-outline-secondary" for="flashlight">{{ _('flashlight') }}</label>
+                {% if validation_result and not validation_result.light_condition_valid -%}
+                <div class="invalid-feedback">{{ _('invalid_light_condition_msg') }}</div>
+                {% endif -%}
             </div>
             <div class="form-group col-md-4">
                 <div>
@@ -46,12 +50,15 @@
                 <input class="btn-check" type="radio" name="quality" id="good" value="good"
                     required>
                 <label class="btn btn-outline-secondary" for="good">{{ _('quality_good') }}</label>
+                {% if validation_result and not validation_result.quality_valid -%}
+                <div class="invalid-feedback">{{ _('invalid_quality_msg') }}</div>
+                {% endif -%}
             </div>
         </div>
-        <div id="image-preview" class="image-preview m-3 d-flex justify-content-center"></div>
         <div class="d-flex justify-content-end mb-3">
             <input type="submit" value="{{ _('upload_action') }}" class="btn btn-dark">
         </div>
+        <div id="image-preview" class="image-preview m-3 d-flex justify-content-center"></div>
     </form>
 </main>
 {% endblock %}

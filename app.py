@@ -8,7 +8,6 @@ from router import set_sheet_upload_directory
 import os
 
 
-
 load_dotenv()
 
 app = Flask(__name__)
@@ -21,7 +20,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ndc.db'
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
 app.config['UPLOAD_SHEETS_DIRECTORY'] = './instance/sheets'
-app.config['LANGUAGES'] = ['cs', 'en', 'gr']
+app.config['LANGUAGES'] = ['cs', 'en', 'el']
 
 def get_locale():
     if 'lang' in session:

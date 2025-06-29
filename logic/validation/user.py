@@ -2,6 +2,7 @@ import base64
 import re
 
 class PasswordValidatoinResult:
+    #form_complete = False
     password_valid_chars = False
     password_long_enough = False
     password_short_enough = False
@@ -42,8 +43,8 @@ def are_password_chars_valid(password: str) -> bool:
 
 def validate_password(form_data: dict) -> bool:
     result = PasswordValidatoinResult()
-    password = form_data['password']
-    confirm_password = form_data['confirm-password']
+    password = form_data.get('password')
+    confirm_password = form_data.get('confirm-password')
 
     if are_password_chars_valid(password):
         result.password_valid_chars = True

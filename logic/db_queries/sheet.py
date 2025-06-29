@@ -6,6 +6,9 @@ from model.sheet import Sheet
 def get_sheet_by_id(sheet_id: int) -> Sheet:
     return Sheet.query.filter_by(id=sheet_id).first()
 
+def get_uploader_sheet_by_id(uploader_id: int, sheet_id: int) -> Sheet:
+    return Sheet.query.filter_by(user_id=uploader_id).filter_by(id=sheet_id).first()
+
 def create_sheet(image_name: str, light_condition: int, quality: int, upload_date: datetime, user_id: int):
     sheet = Sheet(image_name, light_condition, quality, upload_date, user_id)
     db.session.add(sheet)
